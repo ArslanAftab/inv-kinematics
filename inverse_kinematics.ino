@@ -14,6 +14,8 @@
 #define Joint3Pin 4
 #define Joint4Pin 10
 #define GripperPin 11
+#define Link2 95
+#define Link3 190
 
 // Control pins
 int Joint1ControlPin = A1;
@@ -47,6 +49,10 @@ int Joint2Offset = 0; // Your value may be different
 int Joint3Offset = 0; // Your value may be different
 int Joint4Offset = 0; // Your value may be different
 
+// Inverse kinematics 
+int theta1(float x, float y, float z){
+
+}
 void setup(){
     Serial.begin(9600);
     Joint1.attach(Joint1Pin);
