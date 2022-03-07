@@ -6,6 +6,7 @@
 // - Define joint pins
 // - Angle offsets 
 // - Tune gripper
+// - Define working space mapping
 
 #include <Servo.h>
 // Arm Servo pins
@@ -18,9 +19,9 @@
 #define Link3 190
 
 // Control pins
-int Joint1ControlPin = A1;
-int Joint2ControlPin = A2;
-int Joint3ControlPin = A3;
+int ControlPin1 = A0; //x
+int ControlPin2 = A1; //y
+int ControlPin3 = A2; //z
 
 // Control values
 int Joint1Control = 512; // middle value between 0 and 1024
@@ -49,10 +50,25 @@ int Joint2Offset = 0; // Your value may be different
 int Joint3Offset = 0; // Your value may be different
 int Joint4Offset = 0; // Your value may be different
 
-// Inverse kinematics 
-int theta1(float x, float y, float z){
+// Target Coordinates
+int xTarget = 0;
+int yTarget = 0;
+int zTarget = 0;
+float s3 =0;
+float c3 = 0;
+float theta3 = 0;
+float r = 0;
 
+// Inverse kinematics 
+float CalculateTheta3(int x, int y, int z){
+	c3 = sq(x) + sq(y) +sq(z);
+  	c3 -= (sq(Link3) + sq(Link2));
+    c3 /= 2*(Link2*Link3);
+    s3 = sqrt(1-sq(c3));
+  	return atan2(s3,c3);
 }
+
+float CalculaterR()
 void setup(){
     Serial.begin(9600);
     Joint1.attach(Joint1Pin);
@@ -60,32 +76,37 @@ void setup(){
     Joint3.attach(Joint3Pin);
     Joint4.attach(Joint4Pin);
     Gripper.attach(GripperPin);
-    Joint1.write(Joint1Angle+Joint1Offset);
-    Joint2.write(Joint2Angle+Joint2Offset);
-    Joint3.write(Joint3Angle+Joint3Offset);
-    Joint4.write(Joint4Angle+Joint4Offset);
-    Gripper.write(GripperOpen); // Open gripper
+    //Joint1.write(Joint1Angle+Joint1Offset);
+    //Joint2.write(Joint2Angle+Joint2Offset);
+    //Joint3.write(Joint3Angle+Joint3Offset);
+    //Joint4.write(Joint4Angle+Joint4Offset);
+    //Gripper.write(GripperOpen); // Open gripper
     delay(5000); // 5 seconds before robot reads in potentiometer values
 }
 
 void loop(){
     // Read Potentiometer Values
-    Joint1Control = analogRead(Joint1ControlPin);
-    Joint2Control = analogRead(Joint2ControlPin);
-    Joint3Control = analogRead(Joint3ControlPin);
+    Joint1Control = analogRead(ControlPin1);
+    Joint2Control = analogRead(ControlPin2);
+    Joint3Control = analogRead(ControlPin3);
     // Map Analog-Digital-Converted Values into Angles
-    Joint1Angle = map(Joint1Control,0,1023,0,180);
-    Joint2Angle = map(Joint2Control,0,1023,0,180);
-    Joint3Angle = map(Joint3Control,0,1023,0,180);
-    Serial.print("Joint 1: ");
-    Serial.print(Joint1Angle);
-    Serial.print(", Joint 2: ");
-    Serial.print(Joint2Angle);
-    Serial.print(", Joint 3: ");
-    Serial.println(Joint3Angle);
-    Joint1.write(Joint1Angle+Joint1Offset);
-    Joint2.write(Joint2Angle+Joint2Offset);
-    Joint3.write(Joint3Angle+Joint3Offset);
-    Joint4.write(Joint4Angle+Joint4Offset);
-    delay(10);
+    xTarget = map(Joint1Control,0,1023,0,180);
+    yTarget = map(Joint2Control,0,1023,0,180);
+    zTarget = map(Joint3Control,0,1023,0,180);
+    //Calculate Angles
+    theta3 = CalculateTheta3(xTarget, yTarget, zTarget);
+    Serial.print("x: ");
+    Serial.print(xTarget);
+    Serial.print(", y: ");
+    Serial.print(yTarget);
+    Serial.print(", z: ");
+    Serial.println(zTarget);    
+  	Serial.print("Theta: ");
+    Serial.println(theta3);    
+
+    //Joint1.write(Joint1Angle+Joint1Offset);
+    //Joint2.write(Joint2Angle+Joint2Offset);
+    //Joint3.write(Joint3Angle+Joint3Offset);
+    //Joint4.write(Joint4Angle+Joint4Offset);
+    delay(3000);
 }
