@@ -61,11 +61,11 @@ float r = 0;
 
 // Inverse kinematics 
 float CalculateTheta3(int x, int y, int z){
-	c3 = sq(x) + sq(y) +sq(z);
-  	c3 -= (sq(Link3) + sq(Link2));
+    c3 = sq(x) + sq(y) +sq(z);
+    c3 -= (sq(Link3) + sq(Link2));
     c3 /= 2*(Link2*Link3);
     s3 = sqrt(1-sq(c3));
-  	return atan2(s3,c3);
+    return atan2(s3,c3);
 }
 
 float CalculaterR()
