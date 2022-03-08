@@ -111,6 +111,7 @@ float CalculateTheta1(int x, int y)
 {
     beta = theta2-theta3;
     k3 = (Link3 * cos(beta)) + (Link2 * cos(theta2));
+    // If theta is negative, make positive here...
     return (atan2((y/k3), (x/k3)))* rad2degree;
 }
 void setup(){
