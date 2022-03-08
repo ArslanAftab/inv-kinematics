@@ -6,11 +6,12 @@
 // - Define joint pins
 // - Angle offsets 
 // - Tune gripper
-// - All measurements are mm
+
 // Known tasks
 // - Define working space mapping of analogue read
 // - Elbow up solution
-// - Calculate c3 correctly
+// - Write theta values to joints
+
 #include <Servo.h>
 // Arm Servo pins
 #define Joint1Pin 2
@@ -20,6 +21,7 @@
 #define GripperPin 11
 #define Link2 95
 #define Link3 190
+#define divisor 36100
 #define rad2degree 180.0 / M_PI
 
 // Ammend the workspace of the robot arm
@@ -83,7 +85,8 @@ float gamma = 0;
 // Inverse kinematics 
 float CalculateTheta3(int x, int y, int z){
     c3 = sq(x) + sq(y) +sq(z) - sq(Link2) -sq(Link3);
-    c3 = c3/(2*Link2*Link3);
+    c3 = c3/divisor;
+	Serial.println(c3);
     s3 = sqrtf(1-sq(c3));
     return atan2(s3,c3)* rad2degree;
 }
@@ -155,14 +158,14 @@ void loop(){
     Serial.println(zTarget);    
 
     // Helpers
-    Serial.print("C3: ");
-    Serial.print(c3);
-    Serial.print(", S3: ");
-    Serial.print(s3);
-    Serial.print(", Gamma: ");
-    Serial.print(gamma);
-    Serial.print(", R: ");
-    Serial.println(r);
+    // Serial.print("C3: ");
+    // Serial.print(c3);
+    // Serial.print(", S3: ");
+    // Serial.print(s3);
+    // Serial.print(", Gamma: ");
+    // Serial.print(gamma);
+    // Serial.print(", R: ");
+    // Serial.println(r);
 
     // Angles
     Serial.print("Theta1: ");
