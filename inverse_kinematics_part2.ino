@@ -86,7 +86,6 @@ float gamma = 0;
 float CalculateTheta3(int x, int y, int z){
     c3 = sq(x) + sq(y) +sq(z) - sq(Link2) -sq(Link3);
     c3 = c3/divisor;
-	Serial.println(c3);
     s3 = sqrtf(1-sq(c3));
     return atan2(s3,c3)* rad2degree;
 }
@@ -121,11 +120,11 @@ void setup(){
     Joint3.attach(Joint3Pin);
     Joint4.attach(Joint4Pin);
     Gripper.attach(GripperPin);
-    //Joint1.write(Joint1Angle+Joint1Offset);
-    //Joint2.write(Joint2Angle+Joint2Offset);
-    //Joint3.write(Joint3Angle+Joint3Offset);
-    //Joint4.write(Joint4Angle+Joint4Offset);
-    //Gripper.write(GripperOpen); // Open gripper
+    // Joint1.write(Joint1Angle+Joint1Offset);
+    // Joint2.write(Joint2Angle+Joint2Offset);
+    // Joint3.write(Joint3Angle+Joint3Offset);
+    // Joint4.write(Joint4Angle+Joint4Offset);
+    // Gripper.write(GripperOpen); // Open gripper
     delay(5000); // 5 seconds before robot reads in potentiometer values
 }
 
@@ -179,5 +178,5 @@ void loop(){
     //Joint2.write(Joint2Angle+Joint2Offset);
     //Joint3.write(Joint3Angle+Joint3Offset);
     //Joint4.write(Joint4Angle+Joint4Offset);
-    delay(5000);
+    delay(50);
 }
