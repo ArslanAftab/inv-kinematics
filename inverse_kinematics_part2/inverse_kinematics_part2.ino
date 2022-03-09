@@ -124,11 +124,11 @@ void setup(){
     Joint3.attach(Joint3Pin);
     Joint4.attach(Joint4Pin);
     Gripper.attach(GripperPin);
-    // Joint1.write(Joint1Angle+Joint1Offset);
-    // Joint2.write(Joint2Angle+Joint2Offset);
-    // Joint3.write(Joint3Angle+Joint3Offset);
-    // Joint4.write(Joint4Angle+Joint4Offset);
-    // Gripper.write(GripperOpen); // Open gripper
+    Joint1.write(Joint1Angle+Joint1Offset);
+    Joint2.write(Joint2Angle+Joint2Offset);
+    Joint3.write(Joint3Angle+Joint3Offset);
+    Joint4.write(Joint4Angle+Joint4Offset);
+    Gripper.write(GripperOpen); // Open gripper
     delay(5000); // 5 seconds before robot reads in potentiometer values
 }
 
@@ -177,10 +177,10 @@ void loop(){
     Serial.print(theta2);
     Serial.print(", Theta3: ");
     Serial.println(theta3);
-	Serial.println();
-    //Joint1.write(Joint1Angle+Joint1Offset);
-    //Joint2.write(Joint2Angle+Joint2Offset);
-    //Joint3.write(Joint3Angle+Joint3Offset);
-    //Joint4.write(Joint4Angle+Joint4Offset);
+    Serial.println();
+    Joint1.write(Joint1Angle+Joint1Offset);
+    Joint2.write(Joint2Angle+Joint2Offset);
+    Joint3.write(Joint3Angle+Joint3Offset);
+    Joint4.write(Joint4Angle+Joint4Offset);
     delay(500);
 }
