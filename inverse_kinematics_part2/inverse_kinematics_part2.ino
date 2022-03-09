@@ -29,7 +29,7 @@ float rad2degree = 180.0 / M_PI;
 #define minY 50
 #define maxY 200
 #define minZ 0
-#define maxZ -200
+#define maxZ 200
 
 // Control pins
 int ControlPin1 = A1; //x
@@ -37,9 +37,9 @@ int ControlPin2 = A2; //y
 int ControlPin3 = A3; //z
 
 // Control values
-int Joint1Control = 512; // middle value between 0 and 1024
-int Joint2Control = 512; // middle value between 0 and 1024
-int Joint3Control = 512; // middle value between 0 and 1024
+float Joint1Control = 512; // middle value between 0 and 1024
+float Joint2Control = 512; // middle value between 0 and 1024
+float Joint3Control = 512; // middle value between 0 and 1024
 
 // Servo Objects
 Servo Joint1;
@@ -49,19 +49,19 @@ Servo Joint4;
 Servo Gripper;
 
 // Starting Joint Angles
-int Joint1Angle = 90;
-int Joint2Angle = 90;
-int Joint3Angle = 90;
-int Joint4Angle = 180;
-int GripperOpen = 50;
-int GripperClose = 142; 
+float Joint1Angle = 90;
+float Joint2Angle = 90;
+float Joint3Angle = 90;
+float Joint4Angle = 180;
+float GripperOpen = 50;
+float GripperClose = 142; 
 
 
 // Joint Angle Offsets
-int Joint1Offset = 0; // Your value may be different
-int Joint2Offset = 5; // Your value may be different
-int Joint3Offset = 8; // Your value may be different
-int Joint4Offset = -90; // Your value may be different
+float Joint1Offset = 0; // Your value may be different
+float Joint2Offset = 5; // Your value may be different
+float Joint3Offset = 8; // Your value may be different
+float Joint4Offset = -90; // Your value may be different
 
 // Target Coordinates
 float xTarget = 0;
@@ -147,7 +147,7 @@ void loop(){
 
     xTarget = -35;
     yTarget = 76;
-    zTarget =133;
+    zTarget =-133;
     
     //Calculate Angles
     theta3 = CalculateTheta3(xTarget, yTarget, zTarget);
@@ -165,14 +165,14 @@ void loop(){
     Serial.println(zTarget);    
 
     // Helpers
-    Serial.print("C3: ");
-    Serial.print(c3);
-    Serial.print(", S3: ");
-    Serial.print(s3);
-    Serial.print(", Gamma: ");
-    Serial.print(gamma);
-    Serial.print(", R: ");
-    Serial.println(r);
+//    Serial.print("C3: ");
+//    Serial.print(c3);
+//    Serial.print(", S3: ");
+//    Serial.print(s3);
+//    Serial.print(", Gamma: ");
+//    Serial.print(gamma);
+//    Serial.print(", R: ");
+//    Serial.println(r);
 
     // Angles
     Serial.print("Theta1: ");
