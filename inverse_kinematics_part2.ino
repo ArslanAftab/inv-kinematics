@@ -19,10 +19,12 @@
 #define Joint3Pin 4
 #define Joint4Pin 10
 #define GripperPin 11
-#define Link2 95
-#define Link3 190
-#define divisor 36100
-#define rad2degree 180.0 / M_PI
+
+// Inverse kinematics constants
+float Link2  = 95.0;
+float Link3  = 190.0;
+float divisor = 36100.0;
+float rad2degree = 180.0 / M_PI;
 
 // Ammend the workspace of the robot arm
 #define minX 0
@@ -65,9 +67,9 @@ int Joint3Offset = 0; // Your value may be different
 int Joint4Offset = 0; // Your value may be different
 
 // Target Coordinates
-int xTarget = 0;
-int yTarget = 0;
-int zTarget = 0;
+float xTarget = 0;
+float yTarget = 0;
+float zTarget = 0;
 
 // Calculation variables
 float s3 =0;
@@ -83,7 +85,7 @@ float beta = 0;
 float gamma = 0;
 
 // Inverse kinematics 
-float CalculateTheta3(int x, int y, int z){
+float CalculateTheta3(float x, float y, float z){
     c3 = sq(x) + sq(y) +sq(z) - sq(Link2) -sq(Link3);
     c3 = c3/divisor;
     s3 = sqrtf(1-sq(c3));
@@ -101,18 +103,22 @@ float CalculateGamma()
     return atan2(k2, k1)* rad2degree;
 }
 
-float CalculateTheta2(int x, int y, int z){
+float CalculateTheta2(float x, float y, float z){
     float temp1 = -z/r;
     float temp2 = sqrtf(sq(x)+sq(y))/r;
     return (atan2(temp1, temp2) + atan2(k2,k1))* rad2degree;
 }
 
-float CalculateTheta1(int x, int y)
+float CalculateTheta1(float x, float y)
 {
     beta = theta2-theta3;
     k3 = (Link3 * cos(beta)) + (Link2 * cos(theta2));
-    // If theta is negative, make positive here...
-    return (atan2((y/k3), (x/k3)))* rad2degree;
+    float val = (atan2((y/k3), (x/k3)))* rad2degree;
+    if (val <0)
+    {
+        val +=180;
+    }
+    return val;
 }
 void setup(){
     Serial.begin(9600);
@@ -158,14 +164,14 @@ void loop(){
     Serial.println(zTarget);    
 
     // Helpers
-    // Serial.print("C3: ");
-    // Serial.print(c3);
-    // Serial.print(", S3: ");
-    // Serial.print(s3);
-    // Serial.print(", Gamma: ");
-    // Serial.print(gamma);
-    // Serial.print(", R: ");
-    // Serial.println(r);
+    Serial.print("C3: ");
+    Serial.print(c3);
+    Serial.print(", S3: ");
+    Serial.print(s3);
+    Serial.print(", Gamma: ");
+    Serial.print(gamma);
+    Serial.print(", R: ");
+    Serial.println(r);
 
     // Angles
     Serial.print("Theta1: ");
@@ -179,5 +185,5 @@ void loop(){
     //Joint2.write(Joint2Angle+Joint2Offset);
     //Joint3.write(Joint3Angle+Joint3Offset);
     //Joint4.write(Joint4Angle+Joint4Offset);
-    delay(50);
+    delay(500);
 }
