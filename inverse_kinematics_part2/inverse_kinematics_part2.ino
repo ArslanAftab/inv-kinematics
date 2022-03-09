@@ -24,17 +24,17 @@ float divisor = 36100.0;
 float rad2degree = 180.0 / M_PI;
 
 // Ammend the workspace of the robot arm
-#define minX 0
-#define maxX 100
+#define minX -285  
+#define maxX 285
 #define minY 0
-#define maxY 100
-#define minZ 0
-#define maxZ 100
+#define maxY 285
+#define minZ 190
+#define maxZ -285
 
 // Control pins
-int ControlPin1 = A0; //x
-int ControlPin2 = A1; //y
-int ControlPin3 = A2; //z
+int ControlPin1 = A1; //x
+int ControlPin2 = A2; //y
+int ControlPin3 = A3; //z
 
 // Control values
 int Joint1Control = 512; // middle value between 0 and 1024
@@ -178,9 +178,9 @@ void loop(){
     Serial.print(", Theta3: ");
     Serial.println(theta3);
     Serial.println();
-    Joint1.write(Joint1Angle+Joint1Offset);
-    Joint2.write(Joint2Angle+Joint2Offset);
-    Joint3.write(Joint3Angle+Joint3Offset);
+    Joint1.write(theta1+Joint1Offset);
+    Joint2.write(theta2+Joint2Offset);
+    Joint3.write(theta3+Joint3Offset);
     Joint4.write(Joint4Angle+Joint4Offset);
-    delay(500);
+    delay(10);
 }
