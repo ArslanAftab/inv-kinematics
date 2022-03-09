@@ -3,9 +3,6 @@
 ///////////////////////////////////////////////////
 
 // Calibrations to do:
-// - Define joint pins
-// - Angle offsets 
-// - Tune gripper
 
 // Known tasks
 // - Define working space mapping of analogue read
@@ -16,8 +13,8 @@
 // Arm Servo pins
 #define Joint1Pin 2
 #define Joint2Pin 3
-#define Joint3Pin 4
-#define Joint4Pin 10
+#define Joint3Pin 5
+#define Joint4Pin 6
 #define GripperPin 11
 
 // Inverse kinematics constants
@@ -56,15 +53,15 @@ int Joint1Angle = 90;
 int Joint2Angle = 90;
 int Joint3Angle = 90;
 int Joint4Angle = 180;
-int GripperOpen = 60; // Open gripper; Need to tune value
-int GripperClose = 120; // Close gripper; Need to tune value
+int GripperOpen = 50;
+int GripperClose = 142; 
 
 
 // Joint Angle Offsets
 int Joint1Offset = 0; // Your value may be different
-int Joint2Offset = 0; // Your value may be different
-int Joint3Offset = 0; // Your value may be different
-int Joint4Offset = 0; // Your value may be different
+int Joint2Offset = 5; // Your value may be different
+int Joint3Offset = 8; // Your value may be different
+int Joint4Offset = -90; // Your value may be different
 
 // Target Coordinates
 float xTarget = 0;
