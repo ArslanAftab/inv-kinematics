@@ -24,12 +24,12 @@ float divisor = 36100.0;
 float rad2degree = 180.0 / M_PI;
 
 // Ammend the workspace of the robot arm
-#define minX -285  
-#define maxX 285
-#define minY 0
-#define maxY 285
-#define minZ 190
-#define maxZ -285
+#define minX 50
+#define maxX 200
+#define minY 50
+#define maxY 200
+#define minZ 0
+#define maxZ -200
 
 // Control pins
 int ControlPin1 = A1; //x
@@ -145,6 +145,10 @@ void loop(){
     yTarget = map(Joint2Control,0,1023,minY, maxY);
     zTarget = map(Joint3Control,0,1023,minZ, maxZ);
 
+    xTarget = -35;
+    yTarget = 76;
+    zTarget =133;
+    
     //Calculate Angles
     theta3 = CalculateTheta3(xTarget, yTarget, zTarget);
     r = CalculateR();
