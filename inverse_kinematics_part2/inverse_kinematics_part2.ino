@@ -24,10 +24,10 @@ float divisor = 36100.0;
 float rad2degree = 180.0 / M_PI;
 
 // Ammend the workspace of the robot arm
-#define minX 60
+#define minX 200
 #define maxX 200
 #define minY 60
-#define maxY 200
+#define maxY 285
 #define minZ 60
 #define maxZ -190
 
@@ -59,8 +59,8 @@ float GripperClose = 142;
 
 // Joint Angle Offsets
 float Joint1Offset = 0; // Your value may be different
-float Joint2Offset = 5; // Your value may be different
-float Joint3Offset = 8; // Your value may be different
+float Joint2Offset = 0; // Your value may be different
+float Joint3Offset = 0; // Your value may be different
 float Joint4Offset = -90; // Your value may be different
 
 // Target Coordinates
@@ -139,7 +139,7 @@ void loop(){
     Joint3Control = analogRead(ControlPin3);
     
     // Map Analog-Digital-Converted Values into Angles
-    xTarget = map(Joint1Control,0,1023,minX,maxX);
+    xTarget = map(Joint1Control,0,1023,-minX,maxX);
     yTarget = map(Joint2Control,0,1023,minY, maxY);
     zTarget = map(Joint3Control,0,1023,minZ, maxZ);
     
