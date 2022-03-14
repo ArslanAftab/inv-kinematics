@@ -24,12 +24,12 @@ float divisor = 36100.0;
 float rad2degree = 180.0 / M_PI;
 
 // Ammend the workspace of the robot arm
-#define minX 50
+#define minX 60
 #define maxX 200
-#define minY 50
+#define minY 60
 #define maxY 200
-#define minZ 0
-#define maxZ 200
+#define minZ 60
+#define maxZ -190
 
 // Control pins
 int ControlPin1 = A1; //x
@@ -137,17 +137,11 @@ void loop(){
     Joint1Control = analogRead(ControlPin1);
     Joint2Control = analogRead(ControlPin2);
     Joint3Control = analogRead(ControlPin3);
+    
     // Map Analog-Digital-Converted Values into Angles
-    // xTarget = 34;
-    // yTarget = 80;
-    // zTarget = 61;
     xTarget = map(Joint1Control,0,1023,minX,maxX);
     yTarget = map(Joint2Control,0,1023,minY, maxY);
     zTarget = map(Joint3Control,0,1023,minZ, maxZ);
-
-    xTarget = -35;
-    yTarget = 76;
-    zTarget =-133;
     
     //Calculate Angles
     theta3 = CalculateTheta3(xTarget, yTarget, zTarget);
@@ -156,6 +150,34 @@ void loop(){
     theta2 = CalculateTheta2(xTarget, yTarget, zTarget);
     theta1 = CalculateTheta1(xTarget,yTarget);
 
+    // Constraining angles
+    // if (theta1 > 180)
+    // {
+    //     theta1 = 180;
+    // }
+    // else if (theta1 < 0)
+    // {
+    //     theta1 = 0;
+    // }
+
+    // if (theta2 > 180)
+    // {
+    //     theta2 = 180;
+    // }
+    // else if (theta2 < 0)
+    // {
+    //     theta2 = 0;
+    // }
+
+
+    // if (theta3 > 130)
+    // {
+    //     theta3 = 130;
+    // }
+    // else if (theta3 < -10)
+    // {
+    //     theta3 = -10;
+    // }
     // Output results
     Serial.print("x: ");
     Serial.print(xTarget);
@@ -165,14 +187,14 @@ void loop(){
     Serial.println(zTarget);    
 
     // Helpers
-//    Serial.print("C3: ");
-//    Serial.print(c3);
-//    Serial.print(", S3: ");
-//    Serial.print(s3);
-//    Serial.print(", Gamma: ");
-//    Serial.print(gamma);
-//    Serial.print(", R: ");
-//    Serial.println(r);
+    Serial.print("C3: ");
+    Serial.print(c3);
+    Serial.print(", S3: ");
+    Serial.print(s3);
+    Serial.print(", Gamma: ");
+    Serial.print(gamma);
+    Serial.print(", R: ");
+    Serial.println(r);
 
     // Angles
     Serial.print("Theta1: ");
