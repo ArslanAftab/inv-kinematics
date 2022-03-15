@@ -24,7 +24,7 @@ float divisor = 36100.0;
 float rad2degree = 180.0 / M_PI;
 
 // Ammend the workspace of the robot arm
-#define minX 285
+#define minX -285
 #define maxX 285
 #define minY 60
 #define maxY 285
@@ -81,6 +81,45 @@ float k3 = 0;
 float beta = 0;
 float gamma = 0;
 
+// Valid angle tracking
+float lastValid1 = Joint1Angle;
+float lastValid2 = Joint2Angle;
+float lastValid3 = Joint3Angle;
+
+bool checkValid(float angle){
+    if (isnan(angle)) {
+        return false;
+    }
+    if (isinf(angle)) {
+        return false;
+    }
+    return true;
+}
+
+void checkAllAngles()
+{
+    if (! checkValid(theta1)) {
+        Serial.println("Theta1 is not valid");
+        theta1 = lastValid1;
+    }
+    else{
+        lastValid1 = theta1;
+    }
+    if (! checkValid(theta2)) {
+        Serial.println("Theta2 is not valid");
+        theta2 = lastValid2;
+    }
+    else{
+        lastValid2 = theta2;
+    }
+    if (! checkValid(theta3)) {
+        Serial.println("Theta3 is not valid");
+        theta3 = lastValid3;
+    }
+    else{
+        lastValid3 = theta3;
+    }
+}
 // Inverse kinematics 
 float CalculateTheta3(float x, float y, float z){
     c3 = sq(x) + sq(y) +sq(z) - sq(Link2) -sq(Link3);
@@ -95,8 +134,7 @@ float CalculateR(){
     return sqrtf(sq(k1)+sq(k2));
 }
 
-float CalculateGamma()
-{
+float CalculateGamma() {
     return atan2(k2, k1)* rad2degree;
 }
 
@@ -106,17 +144,18 @@ float CalculateTheta2(float x, float y, float z){
     return (atan2(temp1, temp2) + atan2(k2,k1))* rad2degree;
 }
 
-float CalculateTheta1(float x, float y)
-{
+float CalculateTheta1(float x, float y) {
     beta = theta2-theta3;
     k3 = (Link3 * cos(beta)) + (Link2 * cos(theta2));
     float val = (atan2((y/k3), (x/k3)))* rad2degree;
+    // Catch the inverted angle
     if (val <0)
     {
         val +=180;
     }
     return val;
 }
+
 void setup(){
     Serial.begin(9600);
     Joint1.attach(Joint1Pin);
@@ -154,6 +193,10 @@ void loop(){
     gamma = CalculateGamma();
     theta2 = CalculateTheta2(xTarget, yTarget, zTarget);
     theta1 = CalculateTheta1(xTarget,yTarget);
+
+
+    // Ignore invalid angles
+    checkAllAngles();
 
     // Output results
     Serial.print("x: ");
