@@ -5,9 +5,9 @@
 // Calibrations to do:
 
 // Known tasks
-// - Define working space mapping of analogue read
-// - Elbow up solution
-// - Write theta values to joints
+// - Capture nan errors
+// - Implement the functionality for trajectory planning
+
 
 #include <Servo.h>
 // Arm Servo pins
@@ -58,10 +58,10 @@ float GripperClose = 142;
 
 
 // Joint Angle Offsets
-float Joint1Offset = 8; // Your value may be different
-float Joint2Offset = 0; // Your value may be different
-float Joint3Offset = 0; // Your value may be different
-float Joint4Offset = -90; // Your value may be different
+float Joint1Offset = 8; 
+float Joint2Offset = 0; 
+float Joint3Offset = 0; 
+float Joint4Offset = -90; 
 
 // Target Coordinates
 float xTarget = 0;
