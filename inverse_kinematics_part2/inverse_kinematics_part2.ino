@@ -24,12 +24,12 @@ float divisor = 36100.0;
 float rad2degree = 180.0 / M_PI;
 
 // Ammend the workspace of the robot arm
-#define minX 200
-#define maxX -200
+#define minX 285
+#define maxX 285
 #define minY 60
 #define maxY 285
 #define minZ 60
-#define maxZ -190
+#define maxZ -285
 
 // Control pins
 int ControlPin1 = A1; //x
@@ -139,13 +139,15 @@ void loop(){
     Joint3Control = analogRead(ControlPin3);
     
     // Map Analog-Digital-Converted Values into Angles
-    xTarget = 250;
-    yTarget = 0;
-    zTarget = -100;
-//    xTarget = map(Joint1Control,0,1023,minX,maxX);
-//    yTarget = map(Joint2Control,0,1023,minY, maxY);
-//    zTarget = map(Joint3Control,0,1023,minZ, maxZ);
-    
+    xTarget = map(Joint1Control,0,1023,minX,maxX);
+    yTarget = map(Joint2Control,0,1023,minY, maxY);
+    zTarget = map(Joint3Control,0,1023,minZ, maxZ);
+
+    // Constant xyz 
+    // xTarget = 250;
+    // yTarget = 0;
+    // zTarget = -100;
+        
     //Calculate Angles
     theta3 = CalculateTheta3(xTarget, yTarget, zTarget);
     r = CalculateR();
@@ -153,34 +155,6 @@ void loop(){
     theta2 = CalculateTheta2(xTarget, yTarget, zTarget);
     theta1 = CalculateTheta1(xTarget,yTarget);
 
-    // Constraining angles
-    // if (theta1 > 180)
-    // {
-    //     theta1 = 180;
-    // }
-    // else if (theta1 < 0)
-    // {
-    //     theta1 = 0;
-    // }
-
-    // if (theta2 > 180)
-    // {
-    //     theta2 = 180;
-    // }
-    // else if (theta2 < 0)
-    // {
-    //     theta2 = 0;
-    // }
-
-
-    // if (theta3 > 130)
-    // {
-    //     theta3 = 130;
-    // }
-    // else if (theta3 < -10)
-    // {
-    //     theta3 = -10;
-    // }
     // Output results
     Serial.print("x: ");
     Serial.print(xTarget);
