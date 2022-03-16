@@ -88,6 +88,8 @@ float lastValid3 = Joint3Angle;
 
 bool checkValid(float angle){
     if (isnan(angle)) {
+        Serial.print(angle);
+        Serial.println("is invalid");
         return false;
     }
     if (isinf(angle)) {
@@ -120,6 +122,7 @@ void checkAllAngles()
         lastValid3 = theta3;
     }
 }
+
 // Inverse kinematics 
 float CalculateTheta3(float x, float y, float z){
     c3 = sq(x) + sq(y) +sq(z) - sq(Link2) -sq(Link3);
