@@ -61,7 +61,7 @@ float GripperClose = 142;
 // Joint Angle Offsets
 float Joint1Offset = 8; 
 float Joint2Offset = 0; 
-float Joint3Offset = 0; 
+float Joint3Offset = -10; 
 float Joint4Offset = -90; 
 
 // Target Coordinates
@@ -202,6 +202,47 @@ void moveTo(float x, float y, float z){
 
 }
 
+void trajectoryPlan(float x0, float y0, float z0, float xf, float yf, float zf){
+    //Calculate Start position angles
+    float startTheta3 = CalculateTheta3(x0, y0, z0);
+    float startR = CalculateR();
+    float StartGamma = CalculateGamma();
+    float startTheta2 = CalculateTheta2(x0, y0, z0);
+    float startTheta1 = CalculateTheta1(x0,y0);
+
+    //Calculate end position angles
+    float endTheta3 = CalculateTheta3(xf, yf, zf);
+    float endR = CalculateR();
+    float endGamma = CalculateGamma();
+    float endTheta2 = CalculateTheta2(xf, yf, zf);
+    float endTheta1 = CalculateTheta1(xf,yf);
+
+    // Checking
+    Serial.print("theta1i: ");
+    Serial.print(startTheta1);
+    Serial.print(" theta2i: ");
+    Serial.print(startTheta2);    
+    Serial.print(" theta3i: ");
+    Serial.println(startTheta3);
+
+    Serial.print("theta1f: ");
+    Serial.print(endTheta1);
+    Serial.print(" theta2f: ");
+    Serial.print(endTheta2);    
+    Serial.print(" theta3f: ");
+    Serial.println(endTheta3);
+
+    // Helper variables
+    
+    float u01 = startTheta1
+    float u02 = startTheta2;
+    float u03 = startTheta3;
+    // Trajectory planning for each angle one by one
+    for (int time  =0; time < 50; time++){
+
+    }
+}
+
 void setup(){
     Serial.begin(9600);
     Joint1.attach(Joint1Pin);
@@ -231,10 +272,12 @@ void loop(){
     yTarget = 120;
     zTarget = -80;
         
-    delay(1000);
-    moveTo(xTarget,yTarget,zTarget);
+    trajectoryPlan(startxTarget, startyTarget, startzTarget, xTarget, yTarget, zTarget);
+    // delay(1000);
+    // moveTo(xTarget,yTarget,zTarget);
 
-    delay(1000);
-    moveTo(startxTarget, startyTarget, startzTarget);
+    // delay(1000);
+    // moveTo(startxTarget, startyTarget, startzTarget);
+    delay(5000);
 
 }
