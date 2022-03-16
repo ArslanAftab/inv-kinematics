@@ -2,12 +2,6 @@
 //         Control Robot Arm given X,Y,Z         //
 ///////////////////////////////////////////////////
 
-// Calibrations to do:
-
-// Known tasks
-// - Capture nan errors
-// - Implement the functionality for trajectory planning
-
 
 #include <Servo.h>
 // Arm Servo pins
