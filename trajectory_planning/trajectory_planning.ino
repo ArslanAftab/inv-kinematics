@@ -203,6 +203,10 @@ void moveTo(float x, float y, float z){
 }
 
 void trajectoryPlan(float x0, float y0, float z0, float xf, float yf, float zf){
+
+    // Duration of movement
+    float duration = 5;
+
     //Calculate Start position angles
     float startTheta3 = CalculateTheta3(x0, y0, z0);
     float startR = CalculateR();
@@ -218,28 +222,61 @@ void trajectoryPlan(float x0, float y0, float z0, float xf, float yf, float zf){
     float endTheta1 = CalculateTheta1(xf,yf);
 
     // Checking
-    Serial.print("theta1i: ");
-    Serial.print(startTheta1);
-    Serial.print(" theta2i: ");
-    Serial.print(startTheta2);    
-    Serial.print(" theta3i: ");
-    Serial.println(startTheta3);
+    // Serial.print("theta1i: ");
+    // Serial.print(startTheta1);
+    // Serial.print(" theta2i: ");
+    // Serial.print(startTheta2);    
+    // Serial.print(" theta3i: ");
+    // Serial.println(startTheta3);
 
-    Serial.print("theta1f: ");
-    Serial.print(endTheta1);
-    Serial.print(" theta2f: ");
-    Serial.print(endTheta2);    
-    Serial.print(" theta3f: ");
-    Serial.println(endTheta3);
+    // Serial.print("theta1f: ");
+    // Serial.print(endTheta1);
+    // Serial.print(" theta2f: ");
+    // Serial.print(endTheta2);    
+    // Serial.print(" theta3f: ");
+    // Serial.println(endTheta3);
 
     // Helper variables
-    
-    float u01 = startTheta1
-    float u02 = startTheta2;
-    float u03 = startTheta3;
-    // Trajectory planning for each angle one by one
-    for (int time  =0; time < 50; time++){
+    // Theta1 
+    float a0_1 = startTheta1;
+    float a2_1 = (3/sq(duration)) * (endTheta1-startTheta1);
+    float a3_1 = -(2/(duration*duration*duration)) * (endTheta1-startTheta1);
+    // Theta2
+    float a0_2 = startTheta2;
+    float a2_2 = (3/sq(duration)) * (endTheta2-startTheta2);
+    float a3_2 = -(2/(duration*duration*duration)) * (endTheta2-startTheta2);
 
+    // Theta2
+    float a0_3 = startTheta3;
+    float a2_3 = (3/sq(duration)) * (endTheta3-startTheta3);
+    float a3_3 = -(2/(duration*duration*duration)) * (endTheta3-startTheta3);
+
+    // Trajectory planning for each angle one by one
+    for (float time  =0; time < 5; time+=0.1)
+    {
+        // Theta 1 calculations
+        theta1 = a0_1 + (a2_1 * sq(time)) + (a3_1 * time * time * time);
+        // Theta 2 calculations
+        theta2 = a0_2 + (a2_2 * sq(time)) + (a3_2 * time * time * time);
+        // Theta 3 calculations
+        theta3 = a0_3 + (a2_3 * sq(time)) + (a3_3 * time * time * time);
+        // Ignore invalid angles
+        checkAllAngles();  
+
+        // Write angles        
+        Serial.print("Time: ");
+        Serial.print(time);
+        Serial.print(", Theta1: ");
+        Serial.print(theta1);
+        Serial.print(", Theta2: ");
+        Serial.print(theta2);
+        Serial.print(", Theta3: ");
+        Serial.println(theta3);
+        Serial.println();
+        Joint1.write(theta1+Joint1Offset);
+        Joint2.write(theta2+Joint2Offset);
+        Joint3.write(theta3+Joint3Offset);
+        delay(10);
     }
 }
 
@@ -253,31 +290,18 @@ void setup(){
 
     moveTo(startxTarget, startyTarget, startzTarget);
     Gripper.write(GripperOpen); // Open gripper
-    delay(500); // 5 seconds before starting traj planning
 }
 
 void loop(){
-    // // Read Potentiometer Values
-    // Joint1Control = analogRead(ControlPin1);
-    // Joint2Control = analogRead(ControlPin2);
-    // Joint3Control = analogRead(ControlPin3);
-    
-    // // Map Analog-Digital-Converted Values into Angles
-    // xTarget = map(Joint1Control,0,1023,minX,maxX);
-    // yTarget = map(Joint2Control,0,1023,minY, maxY);
-    // zTarget = map(Joint3Control,0,1023,minZ, maxZ);
-
     // Constant xyz 
     xTarget = 120;
     yTarget = 120;
     zTarget = -80;
+
         
+    delay(10000);
     trajectoryPlan(startxTarget, startyTarget, startzTarget, xTarget, yTarget, zTarget);
-    // delay(1000);
-    // moveTo(xTarget,yTarget,zTarget);
-
-    // delay(1000);
-    // moveTo(startxTarget, startyTarget, startzTarget);
-    delay(5000);
-
+    
+    delay(10000);
+    trajectoryPlan(xTarget, yTarget, zTarget, startxTarget, startyTarget, startzTarget);
 }
