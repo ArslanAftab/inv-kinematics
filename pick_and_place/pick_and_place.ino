@@ -51,11 +51,10 @@ float Joint1Angle = 90;
 float Joint2Angle = 90;
 float Joint3Angle = 90;
 float Joint4Angle = 180;
-float GripperOpen = 50;
-float GripperClose = 142; 
-float Gripper0_5 = 190; 
-float Gripper1_5 = 150; 
-float Gripper1_0 = 165; 
+float GripperOpen = 100;
+float Gripper2_0 = 150; 
+float Gripper1_5 = 165; 
+float Gripper1_0 = 190; 
 
 
 // Joint Angle Offsets
@@ -284,6 +283,7 @@ void setup(){
     Gripper.attach(GripperPin);
     moveTo(startxTarget, startyTarget, startzTarget);
     Gripper.write(GripperOpen); // Open gripper
+    delay(5000);
 }
 
 void loop(){
@@ -317,6 +317,8 @@ void loop(){
     float zTargetPlace2 = 85;
 
     float delayTime = 2000;
+
+
     // Approach
     delay(delayTime);
     trajectoryPlan(startxTarget, startyTarget, startzTarget,
@@ -328,7 +330,7 @@ void loop(){
     trajectoryPlan(xTargetApproach, yTargetApproach, zTargetApproach, 
                     xTargetPick, yTargetPick, zTargetPick);
 
-    Gripper.write(Gripper0_5);
+    Gripper.write(Gripper1_0);
 
 
     //Place_1
