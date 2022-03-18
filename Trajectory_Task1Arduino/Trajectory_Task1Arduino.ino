@@ -20,10 +20,10 @@ float Link3  = 190.0;
 float divisor = 36100.0;
 float rad2degree = 180.0 / M_PI;
 
-// Ammend the workspace of the robot arm
+// Physical workspace
 #define minX -285
 #define maxX 285
-#define minY 60
+#define minY -285
 #define maxY 285
 #define minZ 60
 #define maxZ -285
@@ -52,6 +52,9 @@ float Joint3Angle = 90;
 float Joint4Angle = 180;
 float GripperOpen = 50;
 float GripperClose = 142; 
+float Gripper0_5 = 190; 
+float Gripper1_5 = 150; 
+float Gripper1_0 = 165; 
 
 
 // Joint Angle Offsets
@@ -310,7 +313,8 @@ void loop(){
         
     delay(10000);
     trajectoryPlan(startxTarget, startyTarget, startzTarget, xTarget, yTarget, zTarget);
-    
+    Gripper.write(Gripper0_5);
     delay(10000);
     trajectoryPlan(xTarget, yTarget, zTarget, startxTarget, startyTarget, startzTarget);
+    Gripper.write(GripperOpen);
 }
