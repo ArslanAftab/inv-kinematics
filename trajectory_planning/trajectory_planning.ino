@@ -60,7 +60,7 @@ float GripperClose = 142;
 
 // Joint Angle Offsets
 float Joint1Offset = 8; 
-float Joint2Offset = 0; 
+float Joint2Offset = 8; 
 float Joint3Offset = -10; 
 float Joint4Offset = -90; 
 
@@ -276,7 +276,7 @@ void trajectoryPlan(float x0, float y0, float z0, float xf, float yf, float zf){
         Joint1.write(theta1+Joint1Offset);
         Joint2.write(theta2+Joint2Offset);
         Joint3.write(theta3+Joint3Offset);
-        delay(10);
+        delay(100);
     }
 }
 
@@ -294,9 +294,9 @@ void setup(){
 
 void loop(){
     // Constant xyz 
-    xTarget = 120;
-    yTarget = 120;
-    zTarget = -80;
+    xTarget = 285;
+    yTarget = 0;
+    zTarget = 0;
 
         
     delay(10000);
