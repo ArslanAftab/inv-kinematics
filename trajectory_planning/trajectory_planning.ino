@@ -2,10 +2,6 @@
 //   Control Robot Arm given X,Y,Z w/ Traj Plan  //
 ///////////////////////////////////////////////////
 
-// Known tasks
-// - Implement the functionality for trajectory planning
-
-
 #include <Servo.h>
 // Arm Servo pins
 #define Joint1Pin 2
@@ -178,23 +174,23 @@ void moveTo(float x, float y, float z){
     checkAllAngles();  
 
     // Helpers
-    Serial.print("C3: ");
-    Serial.print(c3);
-    Serial.print(", S3: ");
-    Serial.print(s3);
-    Serial.print(", Gamma: ");
-    Serial.print(gamma);
-    Serial.print(", R: ");
-    Serial.println(r);
+    // Serial.print("C3: ");
+    // Serial.print(c3);
+    // Serial.print(", S3: ");
+    // Serial.print(s3);
+    // Serial.print(", Gamma: ");
+    // Serial.print(gamma);
+    // Serial.print(", R: ");
+    // Serial.println(r);
 
     // Angles
-    Serial.print("Theta1: ");
-    Serial.print(theta1);
-    Serial.print(", Theta2: ");
-    Serial.print(theta2);
-    Serial.print(", Theta3: ");
-    Serial.println(theta3);
-    Serial.println();
+    // Serial.print("Theta1: ");
+    // Serial.print(theta1);
+    // Serial.print(", Theta2: ");
+    // Serial.print(theta2);
+    // Serial.print(", Theta3: ");
+    // Serial.println(theta3);
+    // Serial.println();
     Joint1.write(theta1+Joint1Offset);
     Joint2.write(theta2+Joint2Offset);
     Joint3.write(theta3+Joint3Offset);
@@ -264,15 +260,15 @@ void trajectoryPlan(float x0, float y0, float z0, float xf, float yf, float zf){
         checkAllAngles();  
 
         // Write angles        
-        Serial.print("Time: ");
-        Serial.print(time);
-        Serial.print(", Theta1: ");
-        Serial.print(theta1);
-        Serial.print(", Theta2: ");
-        Serial.print(theta2);
-        Serial.print(", Theta3: ");
-        Serial.println(theta3);
-        Serial.println();
+        // Serial.print("Time: ");
+        // Serial.print(time);
+        // Serial.print(", Theta1: ");
+        // Serial.print(theta1);
+        // Serial.print(", Theta2: ");
+        // Serial.print(theta2);
+        // Serial.print(", Theta3: ");
+        // Serial.println(theta3);
+        // Serial.println();
         Joint1.write(theta1+Joint1Offset);
         Joint2.write(theta2+Joint2Offset);
         Joint3.write(theta3+Joint3Offset);
@@ -287,13 +283,26 @@ void setup(){
     Joint3.attach(Joint3Pin);
     Joint4.attach(Joint4Pin);
     Gripper.attach(GripperPin);
-
     moveTo(startxTarget, startyTarget, startzTarget);
     Gripper.write(GripperOpen); // Open gripper
 }
 
 void loop(){
-    // Constant xyz 
+
+
+    // Removed the potentiometer input for traj planning
+
+    // // Read Potentiometer Values
+    // Joint1Control = analogRead(ControlPin1);
+    // Joint2Control = analogRead(ControlPin2);
+    // Joint3Control = analogRead(ControlPin3);
+    
+    // // Map Analog-Digital-Converted Values into Angles
+    // xTarget = map(Joint1Control,0,1023,minX,maxX);
+    // yTarget = map(Joint2Control,0,1023,minY, maxY);
+    // zTarget = map(Joint3Control,0,1023,minZ, maxZ);
+
+    // Constant xyz targets for trajectory planning 
     xTarget = 285;
     yTarget = 0;
     zTarget = 0;
